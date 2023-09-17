@@ -11,7 +11,7 @@ const WIN = 1;
 const DRAW = 0;
 const LOSE = -1;
 
-const app = new Elysia()
+new Elysia()
   .use(ws())
   .ws("/", {
     message(ws, message) {
@@ -34,7 +34,7 @@ const app = new Elysia()
           const newGameId = uuidv4();
           GAMES.set(
             newGameId,
-            gameSchema.parse({ players: [{ id: playerId, socket: ws }, null] })
+            gameSchema.parse({ players: [{ id: playerId, socket: ws }, null] }),
           );
           PLAYER_TO_GAME_MAP.set(playerId, newGameId);
           respond(ws, { type: "NEW_GAME", gameId: newGameId });
@@ -51,7 +51,7 @@ const app = new Elysia()
             socket: ws,
           };
           PLAYER_TO_GAME_MAP.set(playerId, data.gameId);
-          respond(ws, { type: "JOINED", sign: "O" });
+          respond(ws, { type: "JOINED", sign: "○" });
           break;
         }
         case "MOVE": {
@@ -65,7 +65,7 @@ const app = new Elysia()
               ? PLAYER_1
               : PLAYER_2;
           const otherPlayer = gameData.players.find(
-            (player) => player!.id !== playerId
+            (player) => player!.id !== playerId,
           )!;
           respond(otherPlayer.socket, data);
 
@@ -96,7 +96,7 @@ const app = new Elysia()
           }
 
           const isDraw = gameData.board.every((row) =>
-            row.every((slot) => slot !== 0)
+            row.every((slot) => slot !== 0),
           );
           if (isDraw) {
             respond(gameData.players[0]!.socket, {
@@ -113,10 +113,10 @@ const app = new Elysia()
         }
       }
     },
-    open(ws) {
+    open() {
       console.log("new connection");
     },
-    close(ws) {},
+    close() {},
   })
   .listen(3001, () => console.log("listening on http://localhost:3001"));
 

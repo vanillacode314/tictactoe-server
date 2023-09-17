@@ -32,7 +32,7 @@ export const responseSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal(responseTypeSchema.Values.RESTART) }),
   z.object({
     type: z.literal(responseTypeSchema.Values.JOINED),
-    sign: z.enum(["X", "O"]),
+    sign: z.enum(["✕", "○"]),
   }),
   z.object({
     type: z.literal(responseTypeSchema.Values.GAME_OVER),
