@@ -3,6 +3,7 @@ import { Elysia, ws } from "elysia";
 import { gameSchema, messageSchema, responseSchema } from "./types";
 import { checkWinCondition } from "./logic";
 
+const PORT = +(process.env.PORT ?? 3001);
 const GAMES = new Map<string, TGame>();
 const PLAYER_TO_GAME_MAP = new Map<string, string>();
 const PLAYER_1 = 1;
@@ -118,7 +119,7 @@ new Elysia()
     },
     close() {},
   })
-  .listen(3001, () => console.log("listening on http://localhost:3001"));
+  .listen(PORT, () => console.log(`listening on http://localhost:${PORT}`));
 
 function respond(ws: { send: WebSocket["send"] }, message: TResponse) {
   const result = responseSchema.safeParse(message);
